@@ -28,10 +28,5 @@ LOGO_LOCATION: The user can use an image of their choice for the header, this wi
 
 ## Example
 
-<img width="920" alt="readme_img" src="https://github.com/CSOIreland/Code-Transcompiler-using-LLM-s/assets/90720791/cd50026c-b1da-4f5e-8839-fff37e95664f">
-
-
-
-
-
+<img width="920" alt="screenshot_sastor_app" src="https://github.com/CSOIreland/Code-Transcompiler-using-LLMs-public/assets/12334028/ef88081b-a44f-49ba-bc29-101100084392">
 

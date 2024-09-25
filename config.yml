@@ -1,0 +1,7 @@
+name: "Code Translator"
+title: "Code Translator"
+flavicon: "./www/images/flavicon.png"
+logo: "logo.png"
+from_language: "SAS"
+to_language: "R"
+open_ai_key: "your-key-here"

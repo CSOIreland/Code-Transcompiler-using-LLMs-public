@@ -1,5 +1,30 @@
+#branding {
+  position: fixed;
+  background-color: white;
+  left: 20px;
+  top: 3px;
+  z-index: 5;
+  width: 333px; 
+  height: 81px;
+}
+
+#text{
+  font-size: 24px;
+  
+  
+}
+
+
+#inTabset {
+  position: fixed;
+  background-color: white;
+  width: 100%;
+  padding-bottom: 44px;
+  top: 0;
+  z-index: 3;
+}
 /* Live syntax-highlighting Input Console */
-#editing, #editing2, #highlighting {
+#editing1 {
   /* Both elements need the same text and space styling so they are directly on top of each other */
   height: 750px;
   width: 95%;
@@ -9,18 +34,34 @@
   border: 1px solid #ced4da;
   border-radius: .25rem;
   outline: 0;
+  
+  font-family:Consolas,Monaco,'Andale Mono','Ubuntu Mono',monospace!important;
+}
+ #highlighting1 {
+  /* Both elements need the same text and space styling so they are directly on top of each other */
+  height: 750px;
+  width: 95%;
+  margin: 1px;
+  margin-left: 16px;
+  padding: 10px;
+  border: 1px solid #ced4da;
+  border-radius: .25rem;
+  outline: 0;
+  
+  
 }
 
-#editing, #editing2, #highlighting, #highlighting * {
-  /* Also add text styles to highlighing tokens */
-  font-size: 11pt;
+#editing1, #highlighting1{
+  /* Also add text styles to highlighting tokens */
+  font-size: 11pt!important;
   font-family: "Courier New";
-  line-height: 1.5;
+  /*line-height: 1.4;*/
   tab-size: 2;
+  line-height: 24px;
 }
 
 
-#editing, #editing2, #highlighting {
+#editing1, #highlighting1 {
   /* In the same place */
   position: absolute;
   left: 0;
@@ -28,41 +69,45 @@
 
 
 /* Move the textarea in front of the result */
-#editing, #editing2 {
+#editing1 {
   z-index: 1;
 }
-#highlighting {
+#highlighting1 {
   z-index: 0;
 }
 
 
 /* Make textarea almost completely transparent */
-#editing, #editing2 {
+#editing1 {
   color: transparent;
   background: transparent;
   caret-color: black;
-}
+} 
 
-#highlighting {
+#highlighting1 {
   background: white;
 }
 
 /* Can be scrolled */
-#editing, #editing2, #highlighting {
-  overflow: auto;
+#editing1, #highlighting1 {
+  overflow: scroll;
   white-space: nowrap; /* Allows textarea to scroll horizontally */
 }
 
 /* No resize on textarea */
-#editing, #editing2 {
+#editing1, #highlighting1 {
   resize: none;
 }
 
-#editing:focus, #highlighting:focus, #editing2:focus {
+#editing1:focus, #highlighting1:focus,#editing2:focus {
   background-color: transparent;
   border-color: #80bdff;
   outline: 0;
   box-shadow: 0 0 0 0.2rem rgba(0,123,255,0.25);
+}
+
+#highlighting1:focus{
+  z-index: 2;
 }
 
 
@@ -76,7 +121,7 @@ p code {
 
 
 /* Content Formatting */
-#process, #optimise {
+#process1, #process2, #optimise {
   background-color: #006F74;
   border-color: #006F74;
   color: white;
@@ -86,7 +131,7 @@ p code {
 }
 
 
-#progress-bar {
+#progress-bar1, #progress-bar2 {
   margin-left: 150px;
   position: absolute;
   bottom: 0;
@@ -96,38 +141,25 @@ h2 {
   margin-top: 0;
 }
 
-#output {
+#output1, #output2, #editing2{
   background-color: white;
   border-radius: 5px; 
+
 }
 
-#output {
+#output1,  #editing2{
   overflow: auto;
   white-space: nowrap;
 }
-
-#response {
+#output2{
+    overflow: auto;
+}
+#response1, #response2 {
   background-color: white;
+
 }
 
-#CSO_branding {
-  position: fixed;
-  background-color: white;
-  left: 20px;
-  top: 3px;
-  z-index: 3;
-  width: 333px; 
-  height: 81px;
-}
 
-#inTabset {
-  position: fixed;
-  background-color: white;
-  width: 100%;
-  padding-bottom: 44px;
-  top: 0;
-  z-index: 1;
-}
 
 .tab-content {
   margin-top: 85px;

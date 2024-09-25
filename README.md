@@ -1,32 +1,52 @@
-# Code-Transcompiler-using-LLM-s
-## Programming language converter using OpenAI LLM's 
-## Description
+# CSO code Translator
 
-This R shiny web app was built for the translation of programming languages to other programming languages (transcompilation).
-The app offers a simple user interface with no requirement to choose or parameterise the model.
-Calls are made to the OpenAI API to translate the inputted code into the chosen language the OpenAI output returned.
+## About 
+This application is a framework which can be used to translate from one programming language to another (for example the CSO use it to translate SAS to R). The application utilises the OpenAI ChatGPT LLM to translate the code, however it should be possible to use alternative LLMs from other suppliers with some adjustments to the source code - such changes are outside of the scope of this document.
 
-Sensitive information such as urls, paths and names are detected and only submitted to OpenAI if the user explicitly consents to sharing
-this information. 
+## Authors
 
-## Requirements
+The application has been an ongoing project for a series of interns and graduates at the CSO since 2022 and permanent members of CSO. The authors are:
 
-The user needs to supply some additional information for the app to run as intended, this can be inputted by editing the .config file.
-These required pieces of information are:
+### Intens/Graduates
+- Sean Kelly 
+- Minh Quach [https://www.linkedin.com/in/qhm/](https://www.linkedin.com/in/qhm/)
+- Eva Leahy [https://www.linkedin.com/in/eva-leahy/](https://ie.linkedin.com/in/eva-leahy)
+- Sean Browne [https://www.linkedin.com/in/se%C3%A1n-browne-608211286/](https://www.linkedin.com/in/se%C3%A1n-browne-608211286/)
 
-AI_INSTRUCTIONS: This will give the model some information about its task, for example "You are a code transcompiler, when given code in LANGUAGE_1, return the equivalent program in LANGUAGE_2".
+### Permanant staff
+- Peter Marsh
+- Vytas Vaiciulis
+- Vinicus Andrade
+- Callum Wilson
 
-API_KEY: An OpenAi API key
+## Editing
+The CSO is making this configurable version of the code translator available for free. Additional editing and configuration is required to ensure that the translator works for you. Most of the configuring can be done across various files. The name and the specific languages to be translated from/to can be edited in the config.yml file. Specific instructions should be edited in ./www/Instructions1.txt and ./www/Instructions2.txt - these are the Generative AI prompts used to translate code, a basic prompt has been given to get you started. Note that the out-of-the-box version is for SAS to R.
 
-LANGUAGE_1: This will tell the model which langauge to expect the input to be in
+#### config file 
+from the config file you can:
+- define the to/from languages (`from_language`, `to_language`) 
+- define the title of the app (`title`)
+- define the openai api key (`open_ai_key`)
+- define the file name of the company logo in www folder (`logo`)
 
-LANGUAGE_2: This will tell the model which langauge to translate the input into
+#### update LLM instructions
+to update LLM instructions insert your instructions into the www/instructions1.txt and www/instructions2.txt files.
+- instructions1.txt - this defines the instructions to be given to the OpenAI LLM for translating code from one language to another
+- instructions2.txt - this defines the instrucitons to be given to the OpenAI LLM for describing the code provided in the from language.
 
-SEARCH_REGEX: The user may want to classify some input information as sensitive, and treat it as descriped above. A Perl regular expression should be chosen to find sensitive information in the input.
+#### update T&Cs
+To update T&Cs write your specific T&Cs in R markdown in www/Disclaimer/Disclaimer.rmd and knit to HTML. A html fragment file will be created in www/Disclaimer/_site with your T&Cs which will be included in the Instructions tab of the app.
 
-LOGO_LOCATION: The user can use an image of their choice for the header, this will be located at the top left corner of the user interface.
+#### Syntactic Highlighting
+The app is designed around SAS to R, as such the out-of-the-box solution is designed to provide syntactic highlighting in text boxes for SAS only, this is provided by prismjs. Please refer to [prismjs.com](https://www.prismjs.com/) for details on how to configure this. This guide does not provide help customising this part of the app. 
 
-## Example
 
-<img width="920" alt="screenshot_sastor_app" src="https://github.com/CSOIreland/Code-Transcompiler-using-LLMs-public/assets/12334028/a9f59a23-ec34-4ca2-ab0c-d7b479fd4769">
+## Crediting
+
+Please credit CSO Ireland if using / editing this application.
+
+
+
+
+
 

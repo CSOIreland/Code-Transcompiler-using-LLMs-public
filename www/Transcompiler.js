@@ -11,9 +11,19 @@ function update(text, targetId) {
   Prism.highlightElement(result_element);
 }
 
-function sync_scroll(element) {
+function sync_scroll1(element) {
   /* Scroll result to scroll coords of event - sync with textarea */
-  let result_element = document.querySelector("#highlighting");
+  let result_element = document.querySelector("#highlighting1");
+  
+  // Get and set x and y
+  result_element.scrollTop = element.scrollTop;
+  result_element.scrollLeft = element.scrollLeft;
+}
+
+function sync_scroll2(element) {
+  /* Scroll result to scroll coords of event - sync with textarea */
+  let result_element = document.querySelector("#highlighting2");
+  
   // Get and set x and y
   result_element.scrollTop = element.scrollTop;
   result_element.scrollLeft = element.scrollLeft;

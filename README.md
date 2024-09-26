@@ -31,8 +31,8 @@ from the config file you can:
 
 #### update LLM instructions
 to update LLM instructions insert your instructions into the www/instructions1.txt and www/instructions2.txt files.
-- instructions1.txt - this defines the instructions to be given to the OpenAI LLM for translating code from one language to another
-- instructions2.txt - this defines the instrucitons to be given to the OpenAI LLM for describing the code provided in the from language.
+- instructions1.txt - this defines the instructions to be given to the OpenAI LLM API for translating code from one language to another
+- instructions2.txt - this defines the instrucitons to be given to the OpenAI LLM API for describing the code provided in the from language.
 
 #### update T&Cs
 To update T&Cs write your specific T&Cs in R markdown in www/Disclaimer/Disclaimer.rmd and knit to HTML. A html fragment file will be created in www/Disclaimer/_site with your T&Cs which will be included in the Instructions tab of the app.

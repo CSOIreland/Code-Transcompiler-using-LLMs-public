@@ -1,7 +1,7 @@
 # CSO code Translator
 
 ## About 
-This application is a framework which can be used to translate from one programming language to another (for example the CSO use it to translate SAS to R). The application utilises the OpenAI ChatGPT LLM to translate the code, however it should be possible to use alternative LLMs from other suppliers with some adjustments to the source code - such changes are outside of the scope of this document.
+This application is a framework which can be used to translate from one programming language to another (for example the CSO use it to translate SAS to R). The application utilises the OpenAI LLM API to translate the code, however it should be possible to use alternative LLMs from other suppliers with some adjustments to the source code - such changes are outside of the scope of this document.
 
 ## Authors
 

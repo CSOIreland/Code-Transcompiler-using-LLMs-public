@@ -1,7 +1,7 @@
 # CSO code Translator
 
 ## About 
-This application is a framework which can be used to translate from one programming language to another (for example the CSO use it to translate SAS to R). The application utilises the OpenAI LLM API to translate the code, however it should be possible to use alternative LLMs from other suppliers with some adjustments to the source code - such changes are outside of the scope of this document.
+This application is a framework which can be used to translate from one programming language to another (for example the CSO use it to translate SAS to R). The application utilises the OpenAI API to translate the code, however it should be possible to use alternative LLMs from other suppliers with some adjustments to the source code - such changes are outside of the scope of this document.
 
 ## Authors
 
@@ -31,8 +31,8 @@ from the config file you can:
 
 #### update LLM instructions
 to update LLM instructions insert your instructions into the www/instructions1.txt and www/instructions2.txt files.
-- instructions1.txt - this defines the instructions to be given to the OpenAI LLM API for translating code from one language to another
-- instructions2.txt - this defines the instrucitons to be given to the OpenAI LLM API for describing the code provided in the from language.
+- instructions1.txt - this defines the instructions to be given to the OpenAI API for translating code from one language to another
+- instructions2.txt - this defines the instrucitons to be given to the OpenAI API for describing the code provided in the from language.
 
 #### update T&Cs
 To update T&Cs write your specific T&Cs in R markdown in www/Disclaimer/Disclaimer.rmd and knit to HTML. A html fragment file will be created in www/Disclaimer/_site with your T&Cs which will be included in the Instructions tab of the app.

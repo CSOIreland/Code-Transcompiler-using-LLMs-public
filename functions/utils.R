@@ -27,10 +27,6 @@ library(yaml)
 library(stringr)
 library(readr)
 
-
-# this took longer than it should
-# I'm not doing this for Server related functions
-
 ####################################################################################################
 #                                                                                                  #
 #  U       U IIIII      FFFFFFF U       U N     N   CCCCC  TTTTTTT IIIII   OOOO   N     N   SSS    #

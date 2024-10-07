@@ -1,0 +1,308 @@
+#branding {
+  position: fixed;
+  background-color: white;
+  left: 20px;
+  top: 3px;
+  z-index: 5;
+  width: 333px; 
+  height: 81px;
+}
+
+#text{
+  font-size: 24px;
+  
+  
+}
+
+#disclaimer{
+  padding: 10px; 
+  margin-top: 1px; 
+  height: 900px; 
+  border: 1px solid #ced4da; 
+  border-radius: .25rem;  
+}
+
+
+#inTabset {
+  position: fixed;
+  background-color: white;
+  width: 100%;
+  padding-bottom: 44px;
+  top: 0;
+  z-index: 3;
+}
+/* Live syntax-highlighting Input Console */
+#editing1 {
+  /* Both elements need the same text and space styling so they are directly on top of each other */
+  height: 750px;
+  width: 95%;
+  margin: 1px;
+  margin-left: 16px;
+  padding: 10px;
+  border: 1px solid #ced4da;
+  border-radius: .25rem;
+  outline: 0;
+  
+  font-family:Consolas,Monaco,'Andale Mono','Ubuntu Mono',monospace!important;
+}
+ #highlighting1 {
+  /* Both elements need the same text and space styling so they are directly on top of each other */
+  height: 750px;
+  width: 95%;
+  margin: 1px;
+  margin-left: 16px;
+  padding: 10px;
+  border: 1px solid #ced4da;
+  border-radius: .25rem;
+  outline: 0;
+  
+  
+}
+
+#editing1, #highlighting1{
+  /* Also add text styles to highlighting tokens */
+  font-size: 11pt!important;
+  font-family: "Courier New";
+  /*line-height: 1.4;*/
+  tab-size: 2;
+  line-height: 24px;
+}
+
+
+#editing1, #highlighting1 {
+  /* In the same place */
+  position: absolute;
+  left: 0;
+}
+
+
+/* Move the textarea in front of the result */
+#editing1 {
+  z-index: 1;
+}
+#highlighting1 {
+  z-index: 0;
+}
+
+
+/* Make textarea almost completely transparent */
+#editing1 {
+  color: transparent;
+  background: transparent;
+  caret-color: black;
+} 
+
+#highlighting1 {
+  background: white;
+}
+
+/* Can be scrolled */
+#editing1, #highlighting1 {
+  overflow: scroll;
+  white-space: nowrap; /* Allows textarea to scroll horizontally */
+}
+
+/* No resize on textarea */
+#editing1, #highlighting1 {
+  resize: none;
+}
+
+#editing1:focus, #highlighting1:focus,#editing2:focus {
+  background-color: transparent;
+  border-color: #80bdff;
+  outline: 0;
+  box-shadow: 0 0 0 0.2rem rgba(0,123,255,0.25);
+}
+
+#highlighting1:focus{
+  z-index: 2;
+}
+
+
+
+/* Paragraphs; First Image */
+p code {
+  border-radius: 2px;
+  background-color: white;
+  color: #111;
+}
+
+
+/* Content Formatting */
+#process1, #process2, #optimise {
+  background-color: #006F74;
+  border-color: #006F74;
+  color: white;
+  -webkit-user-drag: none;
+  position: absolute;
+  bottom: 0;
+}
+
+
+#progress-bar1, #progress-bar2 {
+  margin-left: 150px;
+  position: absolute;
+  bottom: 0;
+}
+
+h2 {
+  margin-top: 0;
+}
+
+#output1, #output2, #editing2{
+  background-color: white;
+  border-radius: 5px; 
+
+}
+
+#output1,  #editing2{
+  overflow: auto;
+  white-space: nowrap;
+}
+#output2{
+    overflow: auto;
+}
+#response1, #response2 {
+  background-color: white;
+
+}
+
+
+
+.tab-content {
+  margin-top: 85px;
+}
+
+.tabbable .nav-tabs {
+  padding-left: 350px;
+  border-bottom-color: transparent;
+}
+
+.tabbable .nav-tabs li a {
+  background-color: #006F74;
+  color: white;
+  -webkit-user-drag: none;
+}
+
+.tabbable .nav-tabs li:hover a {
+  background-color: #45C1C0;
+  color: white;
+  -webkit-user-drag: none;
+}
+
+.tabbable .nav-tabs li a.active {
+  background-color: #45C1C0;
+  color: white;
+  -webkit-user-drag: none;
+}
+
+
+.ace_content, .ace_gutter{
+  font-size: 10pt;
+  font-family: "Lucida Console";
+  line-height: 1.5;
+  tab-size: 2;
+}
+
+#api_response2 {
+  line-height: 1.5;
+  padding: 0;
+  margin: 0;
+}
+
+/* Syntax Highlighting from prism.js starts below */
+
+/* PrismJS 1.29.0 https://prismjs.com/download.html#themes=prism&languages=markup+css+clike+javascript+sas */
+ code[class*=language-],pre[class*=language-]{
+    color:#000;
+    background:0 0;
+    text-shadow:0 1px #fff;
+    font-family:Consolas,Monaco,'Andale Mono','Ubuntu Mono',monospace;
+    font-size:1em;
+    text-align:left;
+    white-space:pre;
+    word-spacing:normal;
+    word-break:normal;
+    word-wrap:normal;
+    line-height:1.5;
+    -moz-tab-size:4;
+    -o-tab-size:4;
+    tab-size:4;
+    -webkit-hyphens:none;
+    -moz-hyphens:none;
+    -ms-hyphens:none;
+    hyphens:none
+}
+code[class*=language-] ::-moz-selection,code[class*=language-]::-moz-selection,pre[class*=language-] ::-moz-selection,pre[class*=language-]::-moz-selection{
+    text-shadow:none;
+    background:#b3d4fc
+}
+code[class*=language-] ::selection,code[class*=language-]::selection,pre[class*=language-] ::selection,pre[class*=language-]::selection{
+    text-shadow:none;
+    background:#b3d4fc
+}
+@media print{
+    code[class*=language-],pre[class*=language-]{
+        text-shadow:none
+    }
+}
+pre[class*=language-]{
+    padding:1em;
+    margin:.5em 0;
+    overflow:auto
+}
+:not(pre)>code[class*=language-],pre[class*=language-]{
+    background:#f5f2f0
+}
+:not(pre)>code[class*=language-]{
+    padding:.1em;
+    border-radius:.3em;
+    white-space:normal
+}
+.token.cdata,.token.comment,.token.doctype,.token.prolog{
+    color:#708090
+}
+.token.punctuation{
+    color:#000
+}
+.token.namespace{
+    opacity:.7
+}
+.token.boolean,.token.constant,.token.deleted,.token.property,.token.symbol,.token.tag{
+    color:#905
+}
+.token.number {
+    color:#008080;
+    font-weight:bold;
+}
+.token.attr-name,.token.builtin,.token.char,.token.inserted,.token.selector,.token.string{
+    color:#800080
+}
+.language-css .token.string,.style .token.string,.token.entity,.token.operator,.token.url{
+    color:#9a6e3a;
+}
+.token.atrule,.token.attr-value,.token.keyword{
+    color:#0000ff
+}
+.token.step.keyword{
+    color:#000080;
+    font-weight:bold;
+}
+.token.class-name,.token.function{
+    color:#dd4a68
+}
+.token.important,.token.regex,.token.variable{
+    color:#e90
+}
+.token.bold,.token.important{
+    font-weight:700
+}
+.token.italic{
+    font-style:italic
+}
+.token.entity{
+    cursor:help
+}
+ 
+
+/* End of prism.js syntax highlighting*/

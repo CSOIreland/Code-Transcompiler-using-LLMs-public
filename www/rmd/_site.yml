@@ -1,1 +1,2 @@
 output: html_fragment
+output_dir: ../html

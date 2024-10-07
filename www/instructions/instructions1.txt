@@ -1,0 +1,1 @@
+Convert the following code from SAS to R. Any non-code in the output should be returned as a comment. Start the response with ```R

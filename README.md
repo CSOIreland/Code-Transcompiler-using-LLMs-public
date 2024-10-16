@@ -1,19 +1,19 @@
 # CSO code Translator
 
 ## About 
-This application is a framework which can be used to translate from one programming language to another (for example the CSO use it to translate SAS to R). The application utilises the OpenAI API to translate the code, however it should be possible to use alternative LLMs from other suppliers with some adjustments to the source code - such changes are outside of the scope of this document.
+This application can be used to translate from one programming language to another (for example the CSO use it to translate SAS to R). The application utilises the OpenAI API to translate the code, however it should be possible to use alternative LLMs from other suppliers with some adjustments to the source code - such changes are outside of the scope of this document.
 
 ## Authors
 
 The application has been an ongoing project for a series of interns and graduates, and permanent members at the CSO since 2022. The authors are:
 
-### Intens/Graduates
+### Interns/Graduates
 - Sean Kelly 
 - Minh Quach [https://www.linkedin.com/in/qhm/](https://www.linkedin.com/in/qhm/)
 - Eva Leahy [https://www.linkedin.com/in/eva-leahy/](https://ie.linkedin.com/in/eva-leahy)
 - Sean Browne [https://www.linkedin.com/in/se%C3%A1n-browne-608211286/](https://www.linkedin.com/in/se%C3%A1n-browne-608211286/)
 
-### Permanant staff
+### Permanent staff
 - Peter Marsh [https://www.linkedin.com/in/peter-marsh-704180157/](https://www.linkedin.com/in/peter-marsh-704180157/)
 - Vytas Vaiciulis
 - Vinicus Andrade

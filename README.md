@@ -12,6 +12,7 @@ The application has been an ongoing project for a series of interns and graduate
 - Minh Quach [https://www.linkedin.com/in/qhm/](https://www.linkedin.com/in/qhm/)
 - Eva Leahy [https://www.linkedin.com/in/eva-leahy/](https://ie.linkedin.com/in/eva-leahy)
 - Sean Browne [https://www.linkedin.com/in/se%C3%A1n-browne-608211286/](https://www.linkedin.com/in/se%C3%A1n-browne-608211286/)
+- Cian O'Riordan 
 
 ### Permanent staff
 - Peter Marsh [https://www.linkedin.com/in/peter-marsh-704180157/](https://www.linkedin.com/in/peter-marsh-704180157/)
@@ -24,7 +25,7 @@ The CSO is making this configurable version of the code translator available for
 
 #### config file 
 from the config file you can:
-`from_language`, `to_language` define the to/from languages. \
+`from_language`, `from_language_2`, `to_language` define the to/from languages. \
 `title` define the title of the app. \
 `logo` define the file name of the company logo in ./www/images
 `open_ai_key` define the openai api key. \

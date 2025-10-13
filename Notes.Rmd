@@ -1,0 +1,507 @@
+---
+title: "Test Branch Review" 
+output: 
+html_document: default 
+pdf_document: default
+date: "2025-10-01"
+---
+```{r, out.width = 1000, out.height = 500, echo=FALSE}
+knitr::include_graphics("www/images/transcompilerflow.pdf") 
+```
+
+## observer:
+Some error handling of the input before creating callbackR() which
+runs aiProcessfunct() which runs runchatCompletion() which sends the instruction
+prompt and the code input to OpenAi. if there is input text of appropriate
+length and if no regex exists in config.yml to remove private send to OpenAi
+through runChatCompletion else if regex does exist them create a shinyalert page
+to check with user that they are okay with their SAS code leaving the
+organisation. If there's no input through error/ observer() returns a shinyAlert
+page that will run callbackR() when users select to.
+```{r}
+observer <- function(userInput, regexDetect, api_response, language, att,  ...){
+     # Error catching: no input detected ----
+    if( nchar(userInput) > 0 ) {
+      # Error catching: input SAS code too long ----
+      if( nchar(userInput) > 4000 ) {
+        # Hide progress bar on error ----
+        on.exit({
+          att$done()
+        })
+        Sys.sleep(1)
+        # Error output ----
+        updateAceEditor(session, api_response, value = paste0("You have entered too much ",language," code."))
+      } else {
+        # Regular Expression catching ----
+        if (regexDetect() == FALSE) {
+          # No regular expression found, send text to API
+          aiProcessFunct(userInput = userInput, att=att, ...)
+        } else { # Create a pop-up warning to inform user that regex has caught some patterns,
+          # Ask user to confirm before sending text to API or do NULL
+          shinyalert(
+            title = "Information Check",
+            text = "Input appears to contain sensitive information\n (URLs/Filepaths/IP addresses/Passwords/etc.)\n
+                            Do you wish to proceed with translation?",
+            size = "s",
+            closeOnEsc = TRUE,
+            closeOnClickOutside = FALSE,
+            html = FALSE, type = "warning",
+            showConfirmButton = TRUE,
+            showCancelButton = TRUE,
+            confirmButtonText = "Proceed with Translation",
+            confirmButtonCol = "#AEDEF4",
+            cancelButtonText = "Back",
+            timer = 0,
+            animation = TRUE,
+            callbackR = function(x) {  if(x == FALSE) {return(NULL)} # NA not here
+              # this is now going to be aiProcessFunct everytime which itself takes a function as an argument
+                    #userInput, instructions, att, successFunct
+              else{ aiProcessFunct(userInput = userInput, att=att, ...) }
+              #else{ fn(userInput = userInput, instructions = instructions, att=att, session=session, output=output) }
+            }
+          )}
+      }
+    }
+    else {
+      showNotification(paste("Error: No input detected."), type = "error")
+    }
+  }
+```
+## aiProcessfunct(): 
+This functions uses the future R package. Returns a
+function promise object called rs which stored function runChatCompletion() which is
+then available as a future promise Globally in the app. If the future object rs runs
+successfully when it is called %...>% it runs successFunct() else if a 200 code
+is returned from the API %...!% it runs errorFunct().
+```{r}
+aiProcessFunct <- function(userInput, att, successFunct, instructions, ...){ #session, output,language, api
+	# loading bar
+  att$set(0)    # Start at 0%
+	att$auto()
+	future({
+		# OpenAI API connection ----
+		rs <- runChatCompletion(instructions=instructions, userInput=userInput)
+	}) %...>% (
+	  function(rs){
+	    # run the indicated success function
+	    # (currently either explanationSuccessFunct, or translateSuccessFunct)
+		  successFunct(rs=rs, att=att, ...)
+	  }
+	) %...!% (
+	  function(rs){
+		  errorFunct(rs=rs, att=att)
+	  }
+	)
+}
+```
+## runChatCompletion:
+Posts to OpenAI API with instruction and input text. Looks
+in the config.yml file for open_ai_model and instructions (passed as function
+parameter) as a system input and the userInput as a user input to create an API
+call. It also uses the open_ai_max_tokens from config.yml and the API Key
+through function getAPIKey()
+```{r}
+runChatCompletion <- function(instructions, userInput){
+  return (openai::create_chat_completion(
+  # Model used from 10-Nov is the GPT-4 turbo preview.
+  # This model will need to be updated when the preview ends and full release begins
+  model = site_params$open_ai_model,
+  messages = list(
+    list(
+      "role" = "system",
+      "content" = instructions
+    ),
+    list(
+      "role" = "user",
+      "content" = userInput
+    )
+  ),
+  temperature = 0,
+  # max_tokens = 1024, # Controls response length for GPT-4
+  max_tokens = site_params$open_ai_max_tokens, # Increased response length for GPT-4 Turbo (context window is x4 times larger)
+  openai_api_key = getAPIKey())
+)}
+```
+## getAPIKey :
+If there is no environment called "OPEN_AI_KEY" then look in the config.yml
+for open_ai_key else use the "OPEN_AI_KEY" environment.
+```{r}
+getAPIKey <- function(){
+  if (Sys.getenv("OPEN_AI_KEY") == "") return(site_params$open_ai_key)
+  return (Sys.getenv("OPEN_AI_KEY"))
+}
+```
+## aiProcessSuccessFunct:
+if rs API repsonse exists then take the response from the rs object and format
+it for the user.
+```{r}
+aiProcessSuccessFunct <- function(rs, att, lang, updateFunction, ...){
+  # Hide progress bar after 30s
+
+  on.exit({
+    att$done()
+  })
+  Sys.sleep(1)
+  
+  # Response content ----
+  if (!is.null(rs)) {
+    response <- rs$choices$message.content
+    lines <- strsplit(response, "\n")
+    lines2 = lines[[1]]
+
+    start_line <- min(match(c(paste0("This is not ",lang," code. "), 
+                              paste0("This is not ",lang," code."), 
+                              paste0("This is not ",lang," code ")), 
+                            lines2), 
+                      match("```R", lines2), 
+                      match(c("Here is the explanation of the SAS code provided:", 
+                              "\"Here is the explanation of the SAS code provided:",
+                              "Here is the explanation of the SAS code provided:\r",
+                              "\"Here is the explanation of the SAS code provided:\r",
+                              "Here is the explanation of the SAS code provided: ",
+                              "\"Here is the explanation of the SAS code provided: "),
+                            lines2),
+                      na.rm=TRUE)
+    start_sentence <- lines2[start_line]
+    end_line <- which(lines2 == "```")
+    
+    # If is code, just give back the R code equivalent ----
+    if(start_sentence=="```R") { 
+      code_reconstructed <- paste(lines2[(start_line+1):(end_line-1)], collapse = "\n")
+    }
+    # If not code, give back message explaining issue ----
+    else{
+      code_reconstructed <- paste(lines2, collapse = "\n")
+    }
+    
+    updateFunction(value = code_reconstructed, ...)
+                   
+  
+    list(code_reconstructed = code_reconstructed)
+  }
+  
+}
+
+updateUiOutput <- function(value, output){
+  output$response2 <- renderUI({
+    HTML(str_replace_all(str_replace_all(value, "\r", ""), "\n", "<br>"))
+  })
+}
+updateAceEditor_ <- function(session, editorId, value){
+  updateAceEditor(session=session, editorId=editorId,
+                 value = value,
+                 wordWrap = T)
+}
+```
+## errorFunct:
+formats error message from the API call as an R Error.
+Set the flag that the call is complete.
+```{r}
+errorFunct <- function(rs, att){
+  showNotification(paste("Error:", rs$message), type = "error")
+  # Hide progress bar
+  on.exit({
+    att$done()
+  })	
+  return(NULL)
+}
+
+```
+
+
+
+## UIElements: 
+wrapper function for using aceEditor and prism.js to highlight
+code syntax.
+```{r}
+
+aceOutput <- function(tabIndex){
+  return (
+    div(id = paste0("response", tabIndex),
+        aceEditor(paste0("api_response", tabIndex),
+                  height = "798px",
+                  mode = "r",
+                  fontSize="15",
+                  readOnly = TRUE, 
+                  wordWrap = TRUE)))
+}
+
+standardInput <- function(fromLanguage, tabIndex){
+  return(  HTML(
+    str_replace_all(
+      readFile("html", "TranslatorInputTemplate", "html"),
+      c("_input_language_"=fromLanguage, "_tabIndex_"=tabIndex))))
+}
+
+aceInput <- function(fromLanguage, tabIndex){
+  return( 
+    div(id = paste0("editing", tabIndex, "container"), style = "height: 100%",
+        HTML(paste0("<label>Input ",fromLanguage," Code:</label>")),
+        aceEditor(
+          outputId =paste0("editing", tabIndex),
+          height = "750px",
+          selectionId = "selection",
+          fontSize= 15,
+          mode = "r",
+          placeholder = paste0("Enter ",fromLanguage," Code")
+        )
+    )
+  )
+}
+
+
+uiOutput_ <- function(tabIndex) {
+  return (uiOutput(paste0("response", tabIndex)))
+}
+```
+
+
+```{r, out.width = 1000, out.height = 500, echo=FALSE}
+knitr::include_graphics("www/images/transcompiler2.pdf") 
+```
+
+
+## ui_():
+Created fluiPage ui using config parameters in config.yml and the page_() function
+returns a fluidPage, uses title in config file, runs head() utility function, runs
+useattendent() function, creates header using the title from the config file and
+an image stored in www.
+
+The main tabset of the app is created using the instructions() and page_() wrapper functions.
+
+```{r}
+ui_ <- function() {
+  return  (fluidPage(
+  
+    # adds title to browser tab
+    title = site_params$title,
+    
+    # load css and js files
+    head(),
+  
+    # Initialize Progress bar ----
+    theme = bslib::bs_theme(version = 4),
+    
+    useAttendant(),
+    
+    # Branding Image ----
+    headerPanel(site_params$title, 
+                title = img(id = "branding",
+                            draggable = "false",
+                            src = getFile(site_params$logo, "image") 
+                )
+    ),
+    
+    
+    # Main tabs ----
+    tabsetPanel(
+      id="inTabset",
+      instructions(),
+      # sas to R
+      page_(fromLanguage = site_params$from_language, tabIndex = 1, outputElement = aceOutput,  inputElement = standardInput), 
+      # explainer
+      page_(fromLanguage = site_params$from_language, tabIndex = 2,
+            tabName = "Explainer", 
+            outputLabel = "Explanation",
+            buttonLabel = "Explain", 
+            outputElement = uiOutput_,  inputElement = aceInput
+          ),
+      # spss to R
+      page_(fromLanguage = site_params$from_language_2, tabIndex = 3,  outputElement = aceOutput,  inputElement = standardInput)
+      
+    ),
+   
+  ))
+}
+```
+
+## head():
+
+Creates head tag using css and javascript in the includes folder
+
+```{r}
+head <- function(){
+  tags$head(
+    # favicon:
+    # TODO put the favicon code here
+    
+    # Cookies to remember user on popup Terms ----
+    tags$script(src="https://cdn.jsdelivr.net/npm/js-cookie@rc/dist/js.cookie.min.js"),
+    # Load cookies script ----
+    tags$script(src="includes/cookies.js"),
+    
+    # Load CSS & JS script ----
+    tags$link(rel = "stylesheet", type = "text/css", href = "includes/Transcompiler.css"),
+    tags$script(src="includes/Transcompiler.js")
+  )
+}
+```
+
+## page_()
+
+Creates the input ui for the text/code input using information from the config.yml file. 
+
+Uses the waiter package a progress bar.
+
+the inputElement and outputElement functions come are defined in the uiElemets.r file and chosen in the ui_ function
+```{r}
+page_ <- function(fromLanguage, #fromLanguage,
+                  tabIndex,
+                  tabName = "", 
+                  outputLabel = "",
+                  buttonLabel = "",
+                  inputElement, 
+                  outputElement
+                  
+){
+  # set defaults
+  tn <- tabName
+  bt <- buttonLabel
+  ol <- outputLabel
+  if (tabName == "") tn <- paste0(fromLanguage," to ", site_params$to_language," code Assistant")
+  if (buttonLabel == "") bt <- paste0("Translate to ", site_params$to_language)
+  if (outputLabel == "") ol <- paste0("Output ",site_params$to_language," Code")
+  
+  
+  return(tabPanel(title = tn,
+  # Main content ----
+  fluidRow(
+    column(1),
+    column(5,
+           # Progress bar ----
+           attendantBar(paste0("progress-bar", tabIndex),
+                        color = "success",
+                        max = 100,
+                        striped = TRUE,
+                        animated = TRUE,
+                        height = "40px",
+                        width = "75%"
+           ),
+           
+           # Live syntax highlighting input SAS code box ----
+           
+           inputElement(fromLanguage, tabIndex),
+           
+           
+           
+          
+           # Translate button ----
+           actionButton(paste0("process", tabIndex), bt)
+    ),
+    column(5,
+           div(id = paste0("output", tabIndex, "container"), style = "height: 100%;",
+               style = "width: 95%",
+               HTML(paste0("<label>", ol, ":</label>")),
+               div(id = paste0("output", tabIndex), 
+                   style = "border: 1px solid #CED4DA; height: 800px",
+                   outputElement(tabIndex)
+               )
+           )
+    ),
+    column(1)
+  )
+  ))
+  
+  
+}
+
+```
+
+## server_()
+
+reads in 3 sets of "instructions" these are text prompts that tell the LLM what to do eg. Convert the following
+SAS code to R.
+
+the responses() function creates output boxes UI using aceeditor.
+
+Uses Attendant from the waiter package to create progress bars.
+
+termsandconditions displays a t&c page that users need to check before they are allowed to use the App.
+
+regexPattern is created from the config.yalm file.
+
+regexPattern used to define regex methods that identify if sensitive information is in the submitted code.
+
+observer is then called which checks if the input text/code is of an appropriate length and if it includes sensitive information with the regexPattern methods. Then if the text is okay, or the user agrees to proceed with submitting the flagged input text/code it calls aiProcessFuct which create R promises (delayed functions that can be run later in the project) that call the llm model of choice with the instructions and input text/code. 
+
+```{r}
+#' Core server function
+#' 
+#' Defines the core server function called from server.R
+#'
+#' @param input app inputs
+#' @param output app outputs
+#' @param session app session
+#' @export
+server_ <- function(input, output, session) {
+ 
+  # read instructions from instructions txt files
+  instructions1 <- readFile("text", "instructions1", "instructions")
+  instructions2 <- readFile("text", "instructions2", "instructions")
+  instructions3 <- readFile("text", "instructions3", "instructions")
+  
+  # render R Output boxes
+  responses(output)
+  
+  # create progress bars (I wonder if its possible to have 1 progress bar for the whole thing)
+  att1 <- Attendant$new("progress-bar1", hide_on_max = TRUE)
+  att2 <- Attendant$new("progress-bar2", hide_on_max = TRUE)
+  att3 <- Attendant$new("progress-bar3", hide_on_max = TRUE)
+  
+  # initiate observe event for first time users to be presented with T&Cs
+  termsandconditions(input)
+  
+  # generate regex pattern from params
+  regexPattern <- paste0(site_params$regex, collapse="|")
+  
+  # define regex reactive methods for each input (again can we have 1 input perhaps?)
+  regexDetect1 <- reactive(return(grepl(pattern = regexPattern, x = input$editing1, ignore.case = T)))
+  regexDetect2 <- reactive(return(grepl(pattern = regexPattern, x = input$editing2, ignore.case = T)))
+  regexDetect3 <- reactive(return(grepl(pattern = regexPattern, x = input$editing3, ignore.case = T)))
+  
+  
+  # initiate observe events for each button
+  # SAS to R translation
+  observeEvent(input$process1, 
+               observer( 
+                 userInput=input$editing1, 
+                 regexDetect=regexDetect1, 
+                 api_response="api_response1", 
+                 language = site_params$from_language, 
+                 att=att1, 
+                 instructions=instructions1, #... 
+                 successFunct=aiProcessSuccessFunct, 
+                 session = session, 
+                 lang = site_params$from_language, 
+                 editorId = "api_response1",
+                 updateFunction = updateAceEditor_
+              )
+  )
+  # SAS code explainer
+  observeEvent(input$process2,
+               observer(userInput=input$editing2, 
+                        regexDetect=regexDetect2, 
+                        api_response="response2",
+                        language = site_params$from_language, 
+                        att=att2,
+                        instructions=instructions2, #...
+                        successFunct=aiProcessSuccessFunct, 
+                        lang = site_params$from_language, 
+                        output = output,
+                        updateFunction = updateUiOutput
+                      )
+               )
+
+  # SPSS to R translator
+  observeEvent(input$process3, observer(
+                    userInput=input$editing3, instructions=instructions3, 
+                    regexDetect=regexDetect1, api_response="api_response3", 
+                    language = site_params$from_language, att=att3, 
+                    successFunct=aiProcessSuccessFunct, session = session, 
+                    lang = site_params$from_language_2, editorId="api_response3",
+                    updateFunction = updateAceEditor_
+                ))
+  
+  
+} # End server
+

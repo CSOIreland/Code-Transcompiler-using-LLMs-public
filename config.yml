@@ -1,12 +1,29 @@
 name: "Code Translator"
 title: "Code Translator"
+url: "code-translator"
+description: "Code Translaotr assistant using OpenAI"
+
+# access: to define access level in Posit Connect
+# acl       (access only for specific users), 
+# logged_in (any registered user, must log in first), 
+# all       (any user no login required)
+access: "acl"
+
+# change location and name of favicon and logo as necessary
 favicon: "favicon.png"
 logo: "logo.png"
+
+# define translation languages (from/to)
 from_language: "SAS"
+from_language_2: "SPSS"
 to_language: "R"
+
+# this is now to be set as an environment variable in Posit Connect (OPEN_AI_KEY) 
+# it will be read from there first then from here if it doesn't exists in Connect
 open_ai_key: "your-key-here"
 open_ai_model: "GPT-4o"
 open_ai_max_tokens: 4000
+max_workers: 4  # full value can also be stored as an environment variable in Posit Connect (MAX_WORKERS)
 
 # define regex patterns here 
 # the provided patterns match the following (in order)

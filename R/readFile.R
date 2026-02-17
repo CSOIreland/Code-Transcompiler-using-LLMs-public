@@ -1,8 +1,13 @@
 library(readr)
 library(yaml)
 
-# reads files from various locations. this removes the awful nested functions 
-# which litter the code otherwise 
+
+#' reads files from various locations
+#' @param type the file type
+#' @param name the name of the file
+#' @param subfolder the subfolder the file is in
+#' 
+#' @export
 
 readFile <- function(type, name, subfolder = ""){
   ext <- extension(type)
@@ -15,6 +20,7 @@ readFile <- function(type, name, subfolder = ""){
     yml = read_yaml(paste0(getwd(), subfld, name, ext))
   )
 }
+
 
 sourceFile <- function(name){
   source (paste0(getwd(), "/functions/", name))

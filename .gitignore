@@ -3,3 +3,6 @@
 .RData
 .Ruserdata
 .Renviron
+metrics_log.txt
+.nfs*
+testing_scratchpad.R

@@ -11,6 +11,9 @@ function update(text, targetId) {
   Prism.highlightElement(result_element);
 }
 
+
+
+
 function sync_scroll1(element) {
   /* Scroll result to scroll coords of event - sync with textarea */
   let result_element = document.querySelector("#highlighting1");
@@ -23,6 +26,15 @@ function sync_scroll1(element) {
 function sync_scroll2(element) {
   /* Scroll result to scroll coords of event - sync with textarea */
   let result_element = document.querySelector("#highlighting2");
+  
+  // Get and set x and y
+  result_element.scrollTop = element.scrollTop;
+  result_element.scrollLeft = element.scrollLeft;
+}
+
+function sync_scroll3(element) {
+  /* Scroll result to scroll coords of event - sync with textarea */
+  let result_element = document.querySelector("#highlighting3");
   
   // Get and set x and y
   result_element.scrollTop = element.scrollTop;
@@ -58,6 +70,25 @@ function activate_Button(element) {
     document.getElementById("submit-terms").disabled = true;
   }
 }
+
+function init(){
+  let editor1 = ace.edit("api_response1");
+  editor1.setOptions({
+    indentedSoftWrap: false
+  });
+  /*let editor2 = ace.edit("api_response2");
+  editor2.setOptions({
+    indentedSoftWrap: false
+  });*/
+  let editor3 = ace.edit("api_response3");
+  editor3.setOptions({
+    indentedSoftWrap: false
+  });
+  
+}
+
+
+window.onload = init;
 
 /* PrismJS 1.29.0
 https://prismjs.com/download.html#themes=prism&languages=markup+css+clike+javascript+r+sas&plugins=line-numbers */

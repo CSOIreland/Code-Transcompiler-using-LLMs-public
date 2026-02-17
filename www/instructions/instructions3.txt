@@ -1,0 +1,5 @@
+Convert the following SPSS code to equivalent R code.
+Please start the response with ```R. 
+Confirm if the provided code is valid SPSS code, if it is not valid SPSS code start the response with "This is not SPSS code.\n" and explain why it is not valid SPSS code.
+Only provide the R code and necessary comments. 
+Here is the SPSS code:

@@ -26,11 +26,21 @@ There are four tabs: Instructions, SAS to R Code Assistant, Explainer, and SPSS 
 
 The left half of each assistant tab is where the user puts in their inputs. At the top, there is a box for the code to be translated; below that, a box for additional translation instructions; at the bottom, 'Update Translation', 'Undo', 'Redo', and 'Translate' buttons, plus a slider.
 
-To translate a piece of code, copy it into the top input box, add additional instructions in the lower input box if you like, and hit 'Translate'. You can adjust the slider to change the maximum number of times the translator will send the translation back for corrections before serving it to you; the higher the number, the better quality the output will tend to be, but the longer it will take (each check is another two calls to the LLM).
+To translate a piece of code, copy it into the top input box, add additional instructions in the lower input box if you like, and hit 'Translate'. 
+
+![Transcompiler operations no logo](https://github.com/user-attachments/assets/a2ace927-9e86-4e29-b0d8-aca7b398423f)
+
+You can adjust the slider to change the maximum number of times the translator will send the translation back for corrections before serving it to you; the higher the number, the better quality the output will tend to be, but the longer it will take (each check is another two calls to the LLM).
+
+![self_checker_adjustment](https://github.com/user-attachments/assets/e7fea9e1-efda-4fbc-b68e-9c2bc8ffe990)
 
 Once you have some translated code in the right-hand panel, you can have the LLM edit it by putting appropriate instructions in the 'Additional Instructions' input box and hitting 'Update Translation'. This makes a single call to the LLM, telling it to copy out the contents of the output pane and make edits in accord with the instructions. It doesn't reference the original code at all. This lets you refine what you already have, unlike hitting 'Translate', which wipes the slate clean and does a fresh translation.
 
+![Update translation no logo](https://github.com/user-attachments/assets/4cad9082-f26f-4d3f-98a9-a22a714af9a7)
+
 The 'Undo' and 'Redo' buttons affect the output pane, and let you move back and forth between outputs. Note that this works with the same logic of 'undo/redo' as other desktop software, so if you go back in the sequence and then do something else from there, the steps ahead of where you were in the sequence will be lost.
+
+![Undo redo no logo](https://github.com/user-attachments/assets/e68e9d14-614e-410b-aef4-7961bac0b734)
 
 The 'Give feedback' button lets you send an email to an address set in the config file.
 
@@ -85,6 +95,7 @@ Installing to Posit Connect can be achieved via one of 3 ways:
   - via CICD using Jenkins (or similar) continuous integration tool. Posit supply an overview of this method [https://solutions.posit.co/operations/deploy-methods/ci-cd/jenkins/](https://solutions.posit.co/operations/deploy-methods/ci-cd/jenkins/)
   
 ### Docker
+**The CSO is not responsible for any problems you encounter using Docker.**
 There are 4 docker related config values available to edit in the config.yml file. \
 `docker[port]`: defines the port the docker image runs on \
 `docker[host]`: defines the host the docker image runs on \

@@ -27,4 +27,17 @@
 5. No passwords, network drives, database connections, or hard-coded data.
 6. Only input small and manageable chunks of code. The input window for R is limited to 4000 tokens, where each token represents approximately 0.75 words.
 
+
+## SPSS to R Transcompiler
+
+---
+
+1. Only SPSS code is allowed in the tool.
+2. Validate the code for syntax correctness.
+3. There may be errors or discrepancies in the translations. Always review and test the translated R code before using it in production.
+4. Do not include any data, especially confidential information, in the code.
+5. Once the code is translated and incorporated into production, you become the owner of the translated code.
+6. No passwords, network drives, database connections, or hard-coded data.
+7. Translate small and manageable chunks of code. The input window for SPSS is limited to 4000 tokens, where each token represents approximately 0.75 words.
+
 ---

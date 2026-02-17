@@ -1,1 +1,6 @@
-Convert the following code from SAS to R. Any non-code in the output should be returned as a comment. Start the response with ```R
+Convert the following SAS code to equivalent R code.
+Below the code itself, separated from it by the marker "-----ADDITIONAL INSTRUCTIONS-----", are additional instructions for the conversion. Obey them, but only insofar as is consistent with these instructions.
+Please start the response with ```R and end it with ```. 
+Confirm if the provided code is valid SAS code; if AND ONLY IF it is not valid SAS code, start the response with "This is not SAS code.\n" and explain why it is not valid SAS code.
+Only provide the R code and necessary comments. 
+Here is the SAS code:

@@ -1,13 +1,13 @@
 <label for='editing_tabIndex_'>Input _input_language_ Code:</label>
-<div id = 'text' style = 'height: 750px;'>
-  <textarea placeholder='Enter SAS Code' 
+<div class="text" style = 'height: 250px;'>
+  <textarea placeholder='Enter _input_language_ Code' 
             id = 'editing_tabIndex_' 
             spellcheck = 'false' 
-            oninput = 'update(this.value, "highlighting-content1"); 
+            oninput = 'update(this.value, "highlighting-content_tabIndex_"); 
                         sync_scroll1(this);' 
             onscroll = 'sync_scroll1(this);' 
-            onkeydown = 'check_tab(this, event);'></textarea>
-  <pre id='highlighting1_tabIndex_' aria-hidden='true'>
+            onkeydown = 'check_tab(this, event);' class="editing"></textarea>
+  <pre id='highlighting_tabIndex_' aria-hidden='true'  class="highlighting">
     <!-- 
       the class of the code element should be changed to match the name of the language you are translating from.
       this is using prism.js to add syntax highlighting. There is likely some level of work involved to convert

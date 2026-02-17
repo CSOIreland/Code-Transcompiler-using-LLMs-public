@@ -1,13 +1,24 @@
-name: "Code Translator"
-title: "Code Translator"
-favicon: "favicon.png"
+name: "sas2rassistant"
+title: "SAS to R Code Translator"
+url: "sas2rassistant"
+access: "all" # acl (access only for specific users), logged_in (any registered user, must log in first), all (any user no login required)
+description: "SAS to R assistant using OpenAI" 
+favicon: "./images/favicon.png"
 logo: "logo.png"
+# Add appropriate email and host details here to have the feedback form email you when someone puts in feedback, otherwise the form won't send users' feedback anywhere
+feedback_from_email: "INSERT YOUR EMAIL HERE"
+feedback_to_email: "INSERT YOUR EMAIL HERE"
+feedback_host_name: "INSERT YOUR HOST HERE"
 from_language: "SAS"
+from_language_2: "SPSS"
 to_language: "R"
-open_ai_key: "your-key-here"
-open_ai_model: "GPT-4o"
-open_ai_max_tokens: 4000
-
+open_ai_key: "INSERT YOUR KEY HERE" # this is now to be set as an environment variable in Posit Connect (OPEN_AI_KEY)
+open_ai_model: "gpt-5.2"
+open_ai_max_tokens: 40000
+max_workers: 4 # full value should be stored as an environment variable in Posit Connect (MAX_WORKERS)
+# This is the default 'number of iterations' setting for the translator
+max_self_corrector_iterations: 5
+max_manual_iterator_iterations: 0 # this should always be 0 as auto-checking manual iterations isn't implemented
 # define regex patterns here 
 # the provided patterns match the following (in order)
 # - regexPatternFilepath
@@ -19,7 +30,7 @@ regex: [
   , "(?:[0-9]{1,3}\\.){3}[0-9]{1,3}"
   , "([a-zA-Z]{1,}):\\/\\/([a-zA-Z]{1,})|([a-zA-Z]{1,}):\\/([a-zA-Z]{1,})|([a-zA-Z]{1,}):\\/\\/|([a-zA-Z]{1,}):\\/"
   , "\\b(username)\\b|\\b(user)\\b|\\b(uid)\\b"
-  , "\\b(password)\\b|\\b(pword)\\b|\\b(pwrd)\\b|\\b(passw)\\b|\\b(pwd)\\b\\/g"
+  , "\\b(password)\\b|\\b(pword)\\b|\\b(pwrd)\\b|\\b(passw)\\b|\\b(pw)\\b|\\b(mypass)\\b|\\b(pwd)\\b\\/g"
   ]
 
 # the following params are for creation of the docker image and running the app with in a docker container
@@ -28,3 +39,5 @@ docker:
     host: "0.0.0.0"
     path: "/home/sas-to-r-translator"
     image_name: "sas-to-r-translator"
+
+

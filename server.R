@@ -1,11 +1,9 @@
 
 # don't need to define libraries as they're defined in global.R
-# all functionality has been put into global.R ready to be refactored into separate files a necessary "later"
+# all functionality has been split into separate files for "ease" of maintenance
 
-function(input, output, session) {
-  # call server function (found in global.R)
-  server(input,output, session)
-  
-} 
+
+# call server_() function (found in server_.R)
+function(input, output, session) server_(input,output, session)
 
 

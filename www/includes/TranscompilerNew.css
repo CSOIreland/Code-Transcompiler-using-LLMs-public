@@ -32,6 +32,8 @@
   z-index: 3;
 }
 /* Live syntax-highlighting Input Console */
+/* I'm going to give these elements a class and use that 
+for all the styling */
 .editing {
   /* Both elements need the same text and space styling so they are directly on top of each other */
   height: 750px;
@@ -47,53 +49,50 @@
   
   
   z-index: 1;
-  
   color: transparent;
   background: transparent;
   caret-color: black;
 }
- .highlighting {
+.highlighting {
   /* Both elements need the same text and space styling so they are directly on top of each other */
   height: 750px;
   width: 95%;
-  margin: 1px!important;
-  margin-left: 16px!important;
-  padding: 10px!important;
+  margin: 1px;
+  margin-left: 16px;
+  padding: 10px;
   border: 1px solid #ced4da;
   border-radius: .25rem;
   outline: 0;
   z-index: 0;
-  background: white!important;
+  background: white;
 }
 
 .editing, .highlighting{
   /* Also add text styles to highlighting tokens */
   font-size: 11pt!important;
-  /*font-family: "Courier New"!important;*/
+  font-family: "Courier New";
   /*line-height: 1.4;*/
-  tab-size: 2!important;
-  line-height: 24px!important;
-
-  /* In the same place */
+  tab-size: 2;
+  line-height: 24px;
+    /* In the same place */
   position: absolute;
   left: 0;
+  resize: none;
+
+  overflow: scroll;
+  white-space: nowrap; /* Allows textarea to scroll horizontally */
   
-  
-    overflow: scroll!important;
-  white-space: nowrap!important; /* Allows textarea to scroll horizontally */
-    resize: none;
 }
 
-
-.editing:focus, .highlighting:focus/*,#editing2:focus*/ {
-  background-color: transparent!important;
-  border-color: #80bdff!important;
-  outline: 0!important;
-  box-shadow: 0 0 0 0.2rem rgba(0,123,255,0.25)!important;
+.editing:focus, .highlighting1:focus,#editing2:focus{
+  background-color: transparent;
+  border-color: #80bdff;
+  outline: 0;
+  box-shadow: 0 0 0 0.2rem rgba(0,123,255,0.25);
 }
 
-.highlighting:focus {
-  z-index: 2!important;
+.highlighting:focus{
+  z-index: 2;
 }
 
 /* Paragraphs; First Image */
@@ -125,17 +124,15 @@ h2 {
   margin-top: 0;
 }
 
-#output1, #output2, #output3/*, #editing2*/{
+#output1, #output2, #output3, #editing2{
   background-color: white;
   border-radius: 5px; 
 
 }
-pre{
-  white-space: normal!important;
-}
-#output1,#output2, #output3/*, #editing2*/{
+
+#output1, #output2, #output3, #editing2{
   overflow: auto;
-  white-space: normal!important;
+  white-space: nowrap;
 }
 /*#output2{
     overflow: auto;
@@ -174,17 +171,17 @@ pre{
 
 
 .ace_content, .ace_gutter{
-  /*font-size: 10pt;
-  font-family: "Lucida Console";*/
+  font-size: 10pt;
+  font-family: "Lucida Console";
   line-height: 1.5;
   tab-size: 2;
 }
 
-/*#api_response2 {
+#api_response2 {
   line-height: 1.5;
   padding: 0;
   margin: 0;
-}*/
+}
 
 /* Syntax Highlighting from prism.js starts below */
 
